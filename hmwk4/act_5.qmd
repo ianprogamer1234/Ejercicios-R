@@ -1,0 +1,117 @@
+---
+title: "Análisis de datos TB"
+format: html
+editor: visual
+---
+
+```{r}
+library(EDAWR)
+library(DT)
+library(ggplot2)
+library(dplyr)
+
+data(tb)
+datos <- head(tb)
+
+datatable(datos)
+
+
+tb %>%
+  filter(country == "Afghanistan") %>%
+  select(country, year, sex, adult) %>%
+  na.omit() %>%
+  group_by(sex) %>%
+  summarise(numero = sum(adult)) %>%
+  ggplot(mapping =aes(x = sex, y = numero)) + geom_col()
+
+
+```
+
+```{r}
+
+#Casos por sexo para adultos en Afganistan
+
+tb %>%
+  filter(country == "Afghanistan") %>%
+  select(country, year, sex, adult) %>%
+  na.omit() %>%
+  group_by(sex) %>%
+  summarise(numero = sum(adult)) %>%
+  ggplot(mapping =aes(x = sex, y = numero)) +
+  geom_col(fill = "darkblue")
+```
+
+```{r}
+
+#Casos por sexo para personas de la tercera edad en Botswana
+
+tb %>%
+  filter(country == "Botswana") %>%
+  select(country, year, sex, elderly) %>%
+  na.omit() %>%
+  group_by(sex) %>%
+  summarise(numero = sum(elderly)) %>%
+  ggplot(mapping =aes(x = sex, y = numero)) +
+  geom_col(fill = "darkgreen")
+```
+
+```{r}
+
+#Numero de casos de México vs Canada
+
+tb %>%
+  filter(country %in% c("Mexico", "Canada")) %>%
+  na.omit() %>%
+  group_by(country, sex) %>%
+  summarise(Total = sum(child)) %>%
+  ggplot(mapping = aes(x = sex, y = Total)) +
+  geom_col(aes(fill = country))
+
+tb %>% filter(country == "Canada") %>% select(country, year, sex, child) #vacio
+
+tb %>%
+  filter(country %in% c("Mexico", "Germany")) %>%
+  na.omit() %>%
+  group_by(country, sex) %>%
+  summarise(Total = sum(child)) %>%
+  ggplot(mapping = aes(x = sex, y = Total)) +
+  geom_col(aes(fill = country))
+```
+
+```{r}
+
+#Numero de casos de Mexico vs algun pais africano
+
+tb %>%
+  filter(country %in% c("Mexico", "South Africa")) %>%
+  na.omit() %>%
+  group_by(country, sex) %>%
+  summarise(Total = sum(child)) %>%
+  ggplot(mapping = aes(x = sex, y = Total)) +
+  geom_col(aes(fill = country))
+```
+
+```{r}
+
+#Tarea
+
+#1
+tb %>%
+  filter(country == "Mexico") %>%
+  summarise(Total_casos_Mexico = sum(child + adult + elderly, na.rm = TRUE))
+
+#na.rm permite hacer la operacion cuando faltan datos (NA) asi R no te
+#devuelve NA
+
+#2
+tb %>%
+  filter(country == "Afghanistan" & year == 2002) %>%
+  summarise(Total_Afganistan_2002 = sum(child + adult + elderly, na.rm = TRUE))
+
+# & = Y
+
+#3
+tb %>%
+  filter(country == "United States of America" & year >= 1998 & year <= 2004) %>%
+  summarise(Total_EUA_1998_2004 = sum(child + adult + elderly, na.rm = TRUE))
+```
