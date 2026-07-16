@@ -1,0 +1,102 @@
+---
+title: "Act_3"
+format: html
+editor: visual
+---
+
+```{r}
+# Con el comando vector generamos vectores de la siguiente manera
+
+vector("numeric", 5) # vector(tipo_elemento, no_de_elementos)
+```
+
+```{r}
+#Vector de 10 valores
+vector <- integer(length = 10)
+vector
+
+```
+
+```{r}
+vector("character", 15)
+vector
+```
+
+Generacion de vectores atomicos
+
+```{r}
+# Código para generar un vector con los nombres de 5 personas
+personas <- c("Eduardo", "Maria", "Mercedes", "Iván", "Eugenio")
+print(personas) # Con este comando imprimimos el vector personas.
+```
+
+```{r}
+#Vector con 10 numeros enteros
+
+enteros <- c(1,2,3,4,5,6,7,8,9,10)
+print(enteros)
+```
+
+```{r}
+#Vector con 5 valores logicos
+
+logicos <- c(T,T,F,F,T)
+print(logicos)
+```
+
+```{r}
+#Vector con 10 nombres de compañeros
+compClase <- c("omar","carlos","juan","ricardo","pedro","Julieta","raquel","ximena","anthony","lidia")
+compClase
+```
+
+R como calculadora
+
+```{r}
+cos(2*pi)
+sqrt(2*pi)/max(c(3,2,4,1,8))
+log(10000, base=10)
+```
+
+Generando secuencias en R
+
+```{r}
+seq(0,pi, length=10)
+
+seq(10,8, by=-0.33)
+
+
+```
+
+Graficando funciones con R
+
+```{r}
+#Ejercicio 1
+
+library(basetheme)  # para utilizar basetheme, primero instalarlo
+basetheme("deepblue") # install.packages("basetheme")
+x <- seq(-2,2, length=20)
+y <- abs(x)
+plot(x,y, type="l", col="green")
+grid(col="#72efdd")
+```
+
+```{r}
+#Ejercicio 2
+library(basetheme)  # para utilizar basetheme, primero instalarlo
+basetheme("deepblue") # install.packages("basetheme")
+x <- seq(0,2, length=20)
+y <- exp(-x)
+plot(x,y, type="l", col="green")
+grid(col="#72efdd")
+```
+
+```{r}
+#Ejercicio 3
+library(basetheme)  # para utilizar basetheme, primero instalarlo
+basetheme("deepblue") # install.packages("basetheme")
+x <- seq(1,10, length=20)
+y <- sqrt(x)
+plot(x,y, type="l", col="blue")
+grid(col="#72efdd")
+```
