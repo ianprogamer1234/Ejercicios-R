@@ -1,0 +1,370 @@
+---
+title: "Act_2"
+format: html
+editor: visual
+---
+
+```{r}
+#Subindexado de vecores atómicos
+
+set.seed(2)
+
+dnormales <- rnorm(20)  # 20 numeros aleatorios de una dist. normal
+dnormales  # Imprimimos el vector
+
+print("Resultado de order(dnormales)")
+print(dnormales[order(dnormales)])
+
+print("Resultado de 1:length(dnormales)")
+print(dnormales[1:length(dnormales)])
+
+print("Resultado de [-20]")
+print(dnormales[-20])
+
+print("Resultado de [dnormales > 0.5")
+print(dnormales[dnormales > 0.5])
+
+dnormales[0:3]
+```
+
+1.- ¿Cuál es el resultado de `dnormales[order(x)]`:
+
+```         
+[1] -2.31106908 -1.13037567 -1.03966898 -0.89691455  
+[5] -0.39269536 -0.23969802 -0.13878701 -0.08025176  
+[9]  0.03580672  0.13242028  0.18484918  0.41765075 
+[13]  0.43226515  0.70795473  0.87860458  0.98175278 
+[17]  1.01282869  1.58784533  1.78222896  1.98447394
+```
+
+`dnormales[1:length(vec)]`:
+
+```         
+ [1] -0.89691455  0.18484918  1.58784533 -1.13037567  
+ [5] -0.08025176  0.13242028  0.70795473 -0.23969802  
+ [9]  1.98447394 -0.13878701  0.41765075  0.98175278 
+ [13] -0.39269536 -1.03966898  1.78222896 -2.31106908 
+ [17]  0.87860458  0.03580672  1.01282869  0.43226515
+```
+
+`dnormales[-20]`, `dnormales[vec>0.5]`:
+
+```         
+ [1] -0.89691455  0.18484918  1.58784533 -1.13037567  
+ [5] -0.08025176  0.13242028  0.70795473 -0.23969802  
+ [9]  1.98447394 -0.13878701  0.41765075  0.98175278 
+ [13] -0.39269536 -1.03966898  1.78222896 -2.31106908 
+ [17]  0.87860458  0.03580672  1.01282869
+```
+
+2.- ¿Qué sucede si hacemos `dnormales[0:3]`? ¿Cuál es la longitud del vector?
+
+```         
+[1] -0.8969145  0.1848492  1.5878453
+```
+
+3
+
+3.- Ahora suponga que `x <- c(1,24,8)` y `uno <- c(T,T,F)`.
+
+¿Qué sucede si hacemos `x[uno]`?
+
+se queda solo el 1 y el 24 porque estan en la posicion de TRUE y el 8 no se imprime por estar en la posicion de FALSE
+
+¿Y si hacemos `x[as.double(uno)]`?
+
+as.double transforma los valores logicos a decimales o "num" asi que TRUE se vuelve 1 y FALSE se vuelve 0 por eso solo se imprimen dos 1 y el 0 no se imprime
+
+```{r}
+x <- c(1,24,8)
+uno <- c(T,T,F)
+
+x[uno]
+x[as.double(uno)]
+```
+
+Subindexado de listas
+
+```{r}
+#Subindexado de listas
+
+listaPrueba <- list(Mayusculas = LETTERS[1:15], Ciudades = c("Cancun", "Playa", "Chetumal", "Merida"), casos = list(a = 23, b = 1:8, c = list(d = 1, e = TRUE)))
+str(listaPrueba)
+```
+
+Con qué comando puedo obtener la lista casos?
+
+con \$
+
+¿Cómo puedo obtener el único valor lógico de `listaPrueba`?
+
+listaPrueba\$casos\$c\$e
+
+¿Qué sucede si hago `listaPrueba[[3]]$c[[2]]`, es esto equivalente a `listaPrueba$casos[[3]][[2]]`? Explique
+
+Si, son iguales, solo que diferente orden pero llegan al mismo lugar
+
+ ¿Cuál es la diferencia entre `listaPrueba[1]` y `listaPrueba[[1]]`?
+
+el de un corchete devueleve la lista que devuelve el primer elemento y el del segundo corchete entra a la lista y devuelve lo que esta adentro
+
+¿Cómo puedo obtener el objeto `"Chetumal"`?
+
+listaPrueba\$Ciudades\[3\]
+
+¿Cómo puedo obtener el tercer elemento de `b`?
+
+listaPrueba\$casos\$b\[3\]
+
+Indexado de matrices
+
+```{r}
+#Indexado de matrices
+
+matriz1 <- matrix(rnorm(20), nrow = 5)
+dim(matriz1)
+
+matriz1 [, 1:2] #1
+matriz1 [1:2, 1:2] #2
+matriz1 [2,3] #3
+
+```
+
+4.- ¿Son equivalentes los comandos `matriz1[c(1,2),c(3,4)]` y `matriz1[1:2,c(3,4)]`?
+
+Si
+
+```{r}
+#Subindexado de data.frame
+
+# 1. Cargamos la librería indispensable
+library(dplyr)
+
+# 2. Construimos la tabla base
+df <- data.frame(a = 1:8, letras = letters[1:8])
+
+# 3. Comprobamos de forma aislada cada comando
+tabla_columnas <- select(df, a)
+print(tabla_columnas)
+
+tabla_filas <- filter(df, a < 5)
+print(tabla_filas)
+```
+
+## 1. ¿Para qué sirve el paquete dplyr?
+
+R se puede expandir mediante "*contributed packages"* o paquetes de extensión según las necesidades particulares de análisis. **`dplyr`** es precisamente uno de ellos y sirve como una "gramática para la manipulación de datos".
+
+Está diseñado para trabajar específicamente sobre estructuras bidimensionales como **`data.frames`** o *tibbles*. Sirve para optimizar tareas de limpieza como:
+
+- Seleccionar columnas específicas de una tabla enorme.
+
+- Filtrar filas que cumplan con ciertas condiciones lógicas.
+
+- Reordenar filas basándose en los valores de sus columnas.
+
+- Crear nuevas variables o modificar las ya existentes.
+
+- Agrupar datos por categorías y calcular resúmenes estadísticos rápidamente (como promedios o desviaciones estándar).
+
+## 2. ¿Cuáles son los comandos importantes del paquete dplyr?
+
+`dplyr` se basa en un conjunto de "verbos" principales (funciones) que realizan las acciones más comunes sobre una base de datos. Los comandos más importantes son:
+
+- **`select()`**: Se utiliza para seleccionar o descartar columnas específicas de un `data.frame`.
+
+- **`filter()`**: Se utiliza para filtrar filas (observaciones) basándose en condiciones lógicas (por ejemplo, `edad > 18`).
+
+- **`arrange()`**: Sirve para ordenar las filas de la tabla de menor a mayor (o de mayor a menor) con respecto a los valores de una o más columnas (similar a lo que hace la función nativa `order()` con los vectores).
+
+- **`mutate()`**: Permite crear nuevas columnas a partir de operaciones entre columnas existentes, o modificar columnas que ya están en la tabla.
+
+- **`summarise()`** (o `summarize`): Se usa para reducir muchos valores a un único resumen estadístico (como calcular la media con `mean()`, el máximo con `max()`, etc.).
+
+- **`group_by()`**: Se utiliza en combinación con `summarise()` para agrupar los datos por una variable categórica y aplicar los cálculos a cada subgrupo por separado.
+
+Supongamos que tenemos un `data.frame` `df <- data.frame(a=1:8, letras =letter[1:8])`, qué sucede si aplico `select(df, a)`. ¿Y si aplico `filter(df, a<5)`?
+
+para df, a solo conserva las 8 filas originales, pero unicamente la de la columna a
+
+y para df, a\<5 conserva las dos columnas originales (a y letras) pero las reduce a 4 filas
+
+## Graficos de funciones bidimensionales
+
+Los gráficos permiten mostrar múltiples características de una función. Los máximos, mínimos, etc., son métricas que nos dicen mucho acerca del comportamiento de una función. `R` nos permite graficar funciones de manera sencilla utilizando el concepto de vector. Por ejemplo, quizás estemos interesados en conocer la forma de onda de la función seno acotada, la cual se define matemáticamente mediante la siguiente fórmula:
+
+```{r}
+t <- seq(-1, 1, length = 100)
+ft <- sin(2 * pi * t)  # Se calcula la funcion seno a partir de t
+plot(t, ft, type = "l", xlim = c(-4, 4), ylim = c(-1.5, 1.5), main = "Funcion seno", 
+     xlab = "tiempo", ylab = "Valores")
+grid()
+```
+
+```{r}
+t <- seq(-3, 3, length = 200)
+f1 <- sin(2 * pi * (t))
+f2 <- sin(2 * pi * (t - 1/4))
+f3 <- sin(2 * pi * (t - 1/2))
+plot(t, f1, type = "l", main = "Funcion seno y versiones", xlab = "tiempo", 
+     ylab = "Valores")
+grid()
+lines(t, f2, col = "red")
+points(t, f3, col = "blue")
+```
+
+```{r}
+#Ejercicio 1
+t <- seq(-3, 3, length = 300)
+
+ft <- ifelse(t > 0, 1, 0)
+
+plot(t, ft, type = "l", col = "darkblue", lwd = 2,
+     main = "Función Seccionada 1", xlab = "Tiempo (t)", ylab = "f(t)",
+     ylim = c(-0.2, 1.2))
+grid()
+```
+
+```{r}
+#Ejercicio 2
+t <- seq(-2, 2, length = 400)
+
+
+ft <- ifelse(t > -1 & t < 0, 1 + t,
+             ifelse(t >= 0 & t < 1, 1 - t, 0))
+
+plot(t, ft, type = "l", col = "darkgreen", lwd = 2,
+     main = "Función Seccionada 2", xlab = "Tiempo (t)", ylab = "f(t)",
+     ylim = c(-0.2, 1.2))
+grid()
+```
+
+```{r}
+#Ejercicio 3
+t <- seq(-2, 3, length = 500)
+
+ft <- ifelse(t > 0 & t < 2, exp(-2 * t),
+             ifelse(t > -1 & t < 0, 1 + t, 0))
+
+plot(t, ft, type = "l", col = "purple", lwd = 2,
+     main = "Función Seccionada 3", xlab = "Tiempo (t)", ylab = "f(t)",
+     ylim = c(-0.2, 1.2))
+grid()
+```
+
+Graficos 3D #Intento ... si
+
+```{r}
+#49
+x <- seq(-5, 5, length = 50)
+y <- seq(-5, 5, length =50)
+z <- outer(x, y, function(x,y) x + y)
+
+persp(x, y, z, theta = -30, expand = 0.5, ticktype = "detailed", main = "49 Vista A")
+
+persp(x, y, z, theta = 30, expand = 0.5, ticktype = "detailed", main = "49 Vista B")
+
+image(x, y, z, main = "49 Contornos y calor")
+contour(x, y, z, add = TRUE)
+```
+
+```{r}
+#50
+x <- seq(-5, 5, length = 50)
+y <- seq(-5, 5, length =50)
+z <- outer(x, y, function(x,y) 6 - 2*x - 3*y)
+
+persp(x, y, z, theta = -200, expand = 0.5, ticktype = "detailed", main = "50 Vista A")
+
+persp(x, y, z, theta = 200, expand = 0.5, ticktype = "detailed", main = "50 Vista B")
+
+image(x, y, z, main = "50 Contornos y calor")
+contour(x, y, z, add = TRUE)
+```
+
+```{r}
+#51
+x <- seq(-3, 3, length = 50)
+y <- seq(-3, 3, length =50)
+z <- outer(x, y, function(x,y) x^2 + 4*y^2)
+
+persp(x, y, z, theta = -30, expand = 0.5, ticktype = "detailed", main = "51 Vista A")
+
+persp(x, y, z, theta = 30, expand = 0.5, ticktype = "detailed", main = "51 Vista B")
+
+image(x, y, z, main = "51 Contornos y calor")
+contour(x, y, z, add = TRUE)
+```
+
+```{r}
+#52
+x <- seq(-3, 3, length = 50)
+y <- seq(-3, 3, length =50)
+z <- outer(x, y, function(x,y) sqrt(9 - x^2 - y^2))
+
+persp(x, y, z, theta = -30, expand = 0.5, ticktype = "detailed", main = "52 Vista A")
+
+persp(x, y, z, theta = 30, expand = 0.5, ticktype = "detailed", main = "52 Vista B")
+
+image(x, y, z, main = "52 Contornos y calor")
+contour(x, y, z, add = TRUE)
+#Warning in sqrt(9 - x^2 - y^2) : Se han producido NaNs 
+```
+
+```{r}
+#53
+x <- seq(-5, 5, length = 50)
+y <- seq(-5, 5, length =50)
+z <- outer(x, y, function(x,y) x * y)
+
+persp(x, y, z, theta = -30, expand = 0.5, ticktype = "detailed", main = "53 Vista A")
+
+persp(x, y, z, theta = 30, expand = 0.5, ticktype = "detailed", main = "53 Vista B")
+
+image(x, y, z, main = "53 Contornos y calor")
+contour(x, y, z, add = TRUE)
+```
+
+```{r}
+#54
+x <- seq(-2, 2, length = 50)
+y <- seq(-2, 2, length =50)
+z <- outer(x, y, function(x,y) exp((x * y) /2))
+
+persp(x, y, z, theta = -30, expand = 0.5, ticktype = "detailed", main = "54 Vista A")
+
+persp(x, y, z, theta = 30, expand = 0.5, ticktype = "detailed", main = "54 Vista B")
+
+image(x, y, z, main = "54 Contornos y calor")
+contour(x, y, z, add = TRUE)
+```
+
+```{r}
+#55
+x <- seq(-3, 3, length = 60)
+y <- seq(-3, 3, length =60)
+z <- outer(x, y, function(x,y) x / (x^2 + y^2))
+
+persp(x, y, z, theta = -30, expand = 0.4, ticktype = "detailed", main = "55 Vista A")
+
+persp(x, y, z, theta = 30, expand = 0.4, ticktype = "detailed", main = "55 Vista B")
+
+image(x, y, z, main = "55 Contornos y calor")
+contour(x, y, z, add = TRUE)
+```
+
+```{r}
+#56
+x <- seq(0.1, 5, length = 50)
+y <- seq(-5, -0.1, length =50)
+z <- outer(x, y, function(x,y) log(x - y))
+
+z[is.na(z)] <- 0 #valores indefinidos igual a 0
+
+persp(x, y, z, theta = -150, expand = 0.5, ticktype = "detailed", main = "56 Vista A")
+
+persp(x, y, z, theta = 50, expand = 0.5, ticktype = "detailed", main = "56 Vista B")
+
+image(x, y, z, main = "53 Contornos y calor")
+contour(x, y, z, add = TRUE)
+```
