@@ -1,0 +1,48 @@
+---
+title: "data_hmwk_03"
+format: html
+editor: visual
+---
+
+```{r}
+#Actividad filter()
+
+library(dplyr)
+
+starwars %>%
+  filter(species == "Droid", height < 150)
+```
+
+```{r}
+#Ordenamiento de filas con arrange()
+
+starwars %>%
+  filter(species == "Droid", height < 150) %>%
+  arrange(desc(mass))
+```
+
+```{r}
+#mutate()
+
+starwars %>%
+  mutate(
+    altura_cm = height * 1,
+    masa_gr = mass * 1000
+  )
+```
+
+```{r}
+#Seleccion de columnas con selct()
+starwars %>%
+  select(name, height, ends_with("color"))
+```
+
+```{r}
+#Agrupacion y Resumen group_by() y sumarise()
+
+starwars %>%
+  group_by(homeworld) %>%
+  summarise(
+    total_personajes = n()
+  )
+```
