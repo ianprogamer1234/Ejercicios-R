@@ -1,0 +1,114 @@
+---
+title: "Act1"
+format: html
+editor: visual
+---
+
+```{r}
+iz1 <- 1
+z1 <- (2^iz1)^20
+z1
+
+nz2 <- 4
+z2 <- (2 * nz2 + 1)^13
+z2
+
+nz3 <- 4
+iz3 <- 1
+z3 <- (2 * nz3 + 1)^13
+x3 <- (2 ^ iz3)^20
+interseccion <-intersect(z3,x3)
+interseccion
+
+t <- 1
+z4 <- (sin(2 * pi * t))^5
+z4
+
+z5 <- runif(10, 1, 10)
+z5r <- round(z5, digits = 2)
+z5r
+
+z6 <- LETTERS[1:15]
+z6
+```
+
+```{r}
+x1 <- c("1", "2", 2+3i, 5+41)
+x2 <- log(c(T,T,T,T,F))
+x3 <- !(c(1,3,4,12,12.1,99,100))
+x4 <- c(1,2,3) < "a"
+x5 <- 1:10
+```
+
+```{r}
+a <- sample(letters, size = 6, replace = FALSE )
+matriz_a <- matrix(a, nrow = 2, ncol = 3)
+print(matriz_a)
+
+b <- "a"
+matriz_b <- matrix(b, nrow = 4, ncol = 4)
+print(matriz_b)
+
+c <- sample(letters, size = 25, replace = TRUE)
+matriz_c <- matrix(c, nrow = 5, ncol = 5)
+print(matriz_c)
+
+#complejos manuales
+d <- c(2 + 3i, 1 - 1i, 0 + 5i, 4 + 0i)
+matriz_compleja <- matrix(d, nrow = 2, ncol = 2)
+print(matriz_compleja)
+
+#complejos automaticos
+set.seed(1)
+real <- round(runif(4, min = 1, max = 10), 1)
+imaginario <- round(runif(4, min = 1, max = 10), 1)
+matriz_auto <- matrix(real + (imaginario *1i), nrow = 2, ncol = 2)
+print(matriz_auto)
+```
+
+```{r}
+
+x <- list(1, "a", 2+3i, T, F, 1L)
+dim(x) <- c(2,3)
+c(list("a"), 2+3i)
+
+```
+
+¿Que sucede si a la lista x le aplico dim(x) \<- c(2,3)?
+
+Lo que sucedio fue que lo imprimio como si fuera una matriz 1x6, pero el detalle es que puede guardar diferentes tipos de valores, algo que las matrices no pueden hacer
+
+¿Como se llama a este nuevo objeto?
+
+Matriz de Listas o Matrizx
+
+¿Qué sucede si `c(list("a"), 2+3i)`? ¿De qué tipo es el resultado?
+
+crea una nueva lista
+
+```{r}
+set.seed(2026)
+
+total_archivos <- 40
+
+for (i in 1:total_archivos) {
+
+  valores_uniformes <- runif(30, min = 0, max = 100)
+
+  nombre_txt <- paste0("archivo_", i, ".txt")
+  nombre_pdf <- paste0("grafico_", i, ".pdf")
+
+  write(valores_uniformes, file = nombre_txt, sep = "\n")
+
+  pdf(nombre_pdf)
+
+  plot(valores_uniformes, 
+       type = "l", 
+       col = "darkblue", 
+       main = paste("Distribución Uniforme - Archivo", i),
+       xlab = "Índice de Datos", 
+       ylab = "Valor Aleatorio")
+  
+  dev.off() 
+}
+```
